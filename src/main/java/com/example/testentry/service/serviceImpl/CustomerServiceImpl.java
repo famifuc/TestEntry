@@ -16,7 +16,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        customerRepository.save(customer);
+        if(customer.getCustomerName() != null){
+            customerRepository.save(customer);
+        }
         return customer;
     }
 

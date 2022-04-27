@@ -6,6 +6,7 @@ import com.example.testentry.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +18,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order save(Order order) {
-        orderRepository.save(order);
+        if (order.getAmount() > 0 && order.getOrderDate().isAfter(LocalDateTime.now())){
+            orderRepository.save(order);
+        }
         return order;
     }
 
