@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 @RequestMapping("/api")
 public class ProductResource {
@@ -22,7 +23,7 @@ public class ProductResource {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/product", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/products", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> creatProduct(HttpServletRequest request, @Valid @RequestBody Product product) throws URISyntaxException {
         if(product.getProductID() != null){
             return null;
@@ -31,7 +32,7 @@ public class ProductResource {
         return ResponseEntity.created(new URI("/api/product" + product1.getProductID())).body(product1);
     }
 
-    @RequestMapping(value = "/product/update/", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/products", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Product> updateProduct(HttpServletRequest request, @Valid @RequestBody Product product) throws URISyntaxException {
         if(product.getProductID() == null){
             return creatProduct(request, product);
@@ -41,7 +42,7 @@ public class ProductResource {
         return ResponseEntity.ok().body(product1);
     }
 
-    @RequestMapping(value = "/product/{productID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/products/{productID}", method = RequestMethod.GET)
     public ResponseEntity<Product> findOneProduct (@PathVariable("productID") Long productID){
         Optional<Product> product = productService.findOne(productID);
         if (product.isPresent()) {
@@ -57,7 +58,7 @@ public class ProductResource {
         return ResponseEntity.ok().body(product);
     }
 
-    @RequestMapping(value = "/product/{productID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/products/{productID}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteProduct (@PathVariable("productID") Long productID) {
 
         if(productID != null){

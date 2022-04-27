@@ -23,7 +23,7 @@ public class OrderResource {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/order", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/orders", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> creatOrder(HttpServletRequest request, @Valid @RequestBody Order order) throws URISyntaxException {
         if(order.getOrderID() != null){
             return null;
@@ -32,7 +32,7 @@ public class OrderResource {
         return ResponseEntity.created(new URI("/api/order" + order1.getProductID())).body(order1);
     }
 
-    @RequestMapping(value = "/order/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/orders", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Order> updateOrder(HttpServletRequest request, @Valid @RequestBody Order order) throws URISyntaxException {
         if(order.getOrderID() == null){
             return creatOrder(request, order);
@@ -42,7 +42,7 @@ public class OrderResource {
         return ResponseEntity.ok().body(order1);
     }
 
-    @RequestMapping(value = "/order/{orderID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/orders/{orderID}", method = RequestMethod.GET)
     public ResponseEntity<Order> findOneOrder (@PathVariable("orderID") Long orderID){
         Optional<Order> order = orderService.findOne(orderID);
         if (order.isPresent()) {
@@ -52,7 +52,7 @@ public class OrderResource {
         }
     }
 
-    @RequestMapping(value = "/order/V2/{customerID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/orders/V2/{customerID}", method = RequestMethod.GET)
     public ResponseEntity<List<Order>> findOrderByCustomerID (@PathVariable("customerID") Long customerID){
         List<Order> order = orderService.findAllByCustomerID(customerID);
         return ResponseEntity.ok().body(order);
@@ -64,7 +64,7 @@ public class OrderResource {
         return ResponseEntity.ok().body(order);
     }
 
-    @RequestMapping(value = "/order/{orderID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/orders/{orderID}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteOrder (@PathVariable("orderID") Long orderID) {
 
         if(orderID != null){

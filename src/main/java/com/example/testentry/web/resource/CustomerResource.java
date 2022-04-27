@@ -22,7 +22,7 @@ public class CustomerResource {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping(value = "/customer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/customers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> creatCustomer(HttpServletRequest request, @Valid @RequestBody Customer customer) throws URISyntaxException {
         if(customer.getCustomerID() != null){
             return null;
@@ -31,7 +31,7 @@ public class CustomerResource {
         return ResponseEntity.created(new URI("/api/customer" + customer1.getCustomerID())).body(customer1);
     }
 
-    @RequestMapping(value = "/customer/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/customers", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Customer> updateCustomer(HttpServletRequest request, @Valid @RequestBody Customer customer) throws URISyntaxException {
         if(customer.getCustomerID() == null){
             return creatCustomer(request, customer);
@@ -41,7 +41,7 @@ public class CustomerResource {
         return ResponseEntity.ok().body(customer1);
     }
 
-    @RequestMapping(value = "/customer/{customerID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/customers/{customerID}", method = RequestMethod.GET)
     public ResponseEntity<Customer> findOneCustomer (@PathVariable("customerID") Long customerID){
         Optional<Customer> customer = customerService.findOne(customerID);
         if (customer.isPresent()) {
@@ -57,7 +57,7 @@ public class CustomerResource {
         return ResponseEntity.ok().body(customer);
     }
 
-    @RequestMapping(value = "/customer/{customerID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/customers/{customerID}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteCustomer (@PathVariable("customerID") Long customerID) {
 
         if(customerID != null){

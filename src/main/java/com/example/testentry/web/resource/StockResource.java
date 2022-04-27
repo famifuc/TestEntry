@@ -22,13 +22,13 @@ public class StockResource {
     @Autowired
     private StockService stockService;
 
-    @RequestMapping(value = "/stock", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/stocks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Stock> creatStock(HttpServletRequest request, @Valid @RequestBody Stock stock) throws URISyntaxException {
         Stock stock1 = stockService.save(stock);
         return ResponseEntity.created(new URI("/api/stock" + stock1.getProductID())).body(stock1);
     }
 
-    @RequestMapping(value = "/stock/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/stocks", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Stock> updateStock(HttpServletRequest request, @Valid @RequestBody Stock stock) throws URISyntaxException {
         if(stock.getProductID() == null){
             return creatStock(request, stock);
@@ -38,7 +38,7 @@ public class StockResource {
         return ResponseEntity.ok().body(stock1);
     }
 
-    @RequestMapping(value = "/stock/{productID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/stocks/{productID}", method = RequestMethod.GET)
     public ResponseEntity<Stock> findOneStock(@PathVariable("productID") Long productID){
         Optional<Stock> stock = stockService.findOne(productID);
         if (stock.isPresent()) {
@@ -54,7 +54,7 @@ public class StockResource {
         return ResponseEntity.ok().body(stocks);
     }
 
-    @RequestMapping(value = "/stock/{productID}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/stocks/{productID}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteStock (@PathVariable("productID") Long productID) {
 
         if(productID != null){
